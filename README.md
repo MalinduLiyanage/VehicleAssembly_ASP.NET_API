@@ -11,10 +11,10 @@ Each worker can be responsible for assembling multiple vehicles, and each vehicl
 </ul>
 
 <h2>The ER Diagram for the System</h2> 
-<img src="https://github.com/user-attachments/assets/1417c1bd-0d23-48a0-b9a6-97c16cb8dc48" width="400" height="480">
+<img src="https://github.com/user-attachments/assets/1417c1bd-0d23-48a0-b9a6-97c16cb8dc48">
 
 <h2>The Relational Schema for the System</h2> 
-<img src="https://github.com/user-attachments/assets/97cf9c95-2a3e-4dc7-9677-bcdeff620bc1" width="400" height="480">
+<img src="https://github.com/user-attachments/assets/97cf9c95-2a3e-4dc7-9677-bcdeff620bc1">
 
 <h2>To Config</h2> 
 ```sh
