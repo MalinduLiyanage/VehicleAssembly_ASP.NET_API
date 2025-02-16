@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Vehicle_Assembly.Models;
 
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    // Define your DbSet properties for tables
-    public DbSet<MyModel> MyModels { get; set; }
+    public DbSet<Vehicle> vehicle { get; set; }
+    public DbSet<Worker> worker { get; set; }
+    public DbSet<Assemble> assembles { get; set; }
+
 }
 
-// Define the model class
-public class MyModel
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-}
+
