@@ -16,6 +16,8 @@ Each worker can be responsible for assembling multiple vehicles, and each vehicl
 <h2>The Relational Schema for the System</h2> 
 <img src="https://github.com/user-attachments/assets/97cf9c95-2a3e-4dc7-9677-bcdeff620bc1">
 
-<h2>To Config</h2> 
+<h2>Config the API</h2>
+
 ```sh
 docker compose up --build
+```
