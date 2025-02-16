@@ -9,7 +9,7 @@ namespace Vehicle_Assembly.Models
     {
         public int vehicle_id { get; set; }
         public int NIC { get; set; }
-        public DateTime date { get; set; }
+        public DateOnly date { get; set; }
         public bool isCompleted { get; set; }
 
         [ForeignKey("vehicle_id")]

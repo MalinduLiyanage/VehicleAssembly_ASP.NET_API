@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vehicle_Assembly.Models;
+using System.Threading.Tasks;
 
 namespace Vehicle_Assembly.Controllers
 {
@@ -49,5 +51,45 @@ namespace Vehicle_Assembly.Controllers
 
             return Ok(result);
         }
+
+        // POST: api/assembles
+        [HttpPost]
+        public async Task<ActionResult<Assemble>> CreateAssemble([FromBody] AssembleRequest newAssembleRequest)
+        {
+            // Validate request body fields (vehicle_id, nic, date, isCompleted)
+            if (newAssembleRequest.vehicle_id <= 0 || newAssembleRequest.nic <= 0 || newAssembleRequest.date == default || newAssembleRequest.isCompleted == null)
+            {
+                return BadRequest(new { message = "All fields are mandatory!" });
+            }
+
+            // Check if the vehicle exists
+            var vehicleExists = await _context.vehicle.AnyAsync(v => v.vehicle_id == newAssembleRequest.vehicle_id);
+            if (!vehicleExists)
+            {
+                return BadRequest(new { message = "Invalid Vehicle ID. Vehicle does not exist." });
+            }
+
+            // Check if the worker exists
+            var workerExists = await _context.worker.AnyAsync(w => w.NIC == newAssembleRequest.nic);
+            if (!workerExists)
+            {
+                return BadRequest(new { message = "Invalid NIC. Worker does not exist." });
+            }
+
+            // Create the Assemble record
+            var newAssemble = new Assemble
+            {
+                vehicle_id = newAssembleRequest.vehicle_id,
+                NIC = newAssembleRequest.nic,
+                date = newAssembleRequest.date,
+                isCompleted = newAssembleRequest.isCompleted
+            };
+
+            _context.assembles.Add(newAssemble);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAssembles), new { vehicle_id = newAssemble.vehicle_id, worker_id = newAssemble.NIC }, newAssemble);
+        }
     }
+    
 }
