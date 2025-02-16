@@ -1,0 +1,6 @@
+services:
+  vehicle_assembly:
+    image: ${DOCKER_REGISTRY-}vehicleassembly
+    build:
+      context: .
+      dockerfile: Vehicle_Assembly/Dockerfile
