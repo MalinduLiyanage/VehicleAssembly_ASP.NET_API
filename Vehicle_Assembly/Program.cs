@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Vehicle_Assembly.Services;
 using Vehicle_Assembly.Services.VehicleService;
 using Vehicle_Assembly.Services.WorkerService;
+using Vehicle_Assembly.Services.AssmblyService;
+using Vehicle_Assembly.Services.AssembleService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IWorkerService, WorkerService>();
+builder.Services.AddScoped<IAssembleService, AssembleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

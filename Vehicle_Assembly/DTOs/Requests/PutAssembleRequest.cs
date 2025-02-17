@@ -1,6 +1,6 @@
-﻿namespace Vehicle_Assembly.Models
+﻿namespace Vehicle_Assembly.DTOs.Requests
 {
-    public class AssembleRequest
+    public class PutAssembleRequest
     {
         public int vehicle_id { get; set; }
         public int nic { get; set; }
