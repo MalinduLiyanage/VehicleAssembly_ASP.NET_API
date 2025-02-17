@@ -6,9 +6,9 @@ public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<Vehicle> vehicle { get; set; }
-    public DbSet<Worker> worker { get; set; }
-    public DbSet<Assemble> assembles { get; set; }
+    public DbSet<VehicleModel> vehicle { get; set; }
+    public DbSet<WorkerModel> worker { get; set; }
+    public DbSet<AssembleModel> assembles { get; set; }
 
 }
 

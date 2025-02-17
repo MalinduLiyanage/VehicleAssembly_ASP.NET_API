@@ -16,13 +16,13 @@ namespace Vehicle_Assembly.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Worker>>> GetWorkers()
+        public async Task<ActionResult<IEnumerable<WorkerModel>>> GetWorkers()
         {
             return await _context.worker.ToListAsync();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Worker>> PostWorker(Worker worker)
+        public async Task<ActionResult<WorkerModel>> PostWorker(WorkerModel worker)
         {
             if (worker == null)
             {

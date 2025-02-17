@@ -54,7 +54,7 @@ namespace Vehicle_Assembly.Controllers
 
         // POST: api/assembles
         [HttpPost]
-        public async Task<ActionResult<Assemble>> CreateAssemble([FromBody] AssembleRequest newAssembleRequest)
+        public async Task<ActionResult<AssembleModel>> CreateAssemble([FromBody] AssembleRequest newAssembleRequest)
         {
             // Validate request body fields (vehicle_id, nic, date, isCompleted)
             if (newAssembleRequest.vehicle_id <= 0 || newAssembleRequest.nic <= 0 || newAssembleRequest.date == default || newAssembleRequest.isCompleted == null)
@@ -77,7 +77,7 @@ namespace Vehicle_Assembly.Controllers
             }
 
             // Create the Assemble record
-            var newAssemble = new Assemble
+            var newAssemble = new AssembleModel
             {
                 vehicle_id = newAssembleRequest.vehicle_id,
                 NIC = newAssembleRequest.nic,

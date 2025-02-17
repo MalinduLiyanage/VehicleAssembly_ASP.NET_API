@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vehicle_Assembly.Models
 {
-    public class Vehicle
+    [Table("vehicle")]
+    public class VehicleModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,5 +13,4 @@ namespace Vehicle_Assembly.Models
         public string color { get; set; }
         public string engine { get; set; }
     }
-
 }

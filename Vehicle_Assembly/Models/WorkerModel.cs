@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vehicle_Assembly.Models
 {
-    public class Worker
+    [Table("worker")]
+    public class WorkerModel
     {
         [Key]
         public int NIC { get; set; }
@@ -12,5 +14,4 @@ namespace Vehicle_Assembly.Models
         public string address { get; set; }
         public string job_role { get; set; }
     }
-
 }

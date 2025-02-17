@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vehicle_Assembly.DTOs.Requests;
+using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
+using Vehicle_Assembly.Services.VehicleService;
 
 namespace Vehicle_Assembly.Controllers
 {
@@ -8,38 +11,19 @@ namespace Vehicle_Assembly.Controllers
     [ApiController]
     public class VehicleController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IVehicleService vehicleService;
 
-        public VehicleController(ApplicationDbContext context)
+        public VehicleController(IVehicleService vehicleService)
         {
-            _context = context;
+            this.vehicleService = vehicleService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
+        public BaseResponse VehicleList() 
         {
-            return await _context.vehicle.ToListAsync();
+            return vehicleService.GetVehicles();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
-        {
-            if (vehicle == null)
-            {
-                return BadRequest("Invalid vehicle data.");
-            }
-
-            if (string.IsNullOrWhiteSpace(vehicle.model) ||
-                string.IsNullOrWhiteSpace(vehicle.color) ||
-                string.IsNullOrWhiteSpace(vehicle.engine))
-            {
-                return BadRequest("All fields are required.");
-            }
-
-            _context.vehicle.Add(vehicle);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetVehicles), new { id = vehicle.vehicle_id }, vehicle);
-        }
+       
     }
 }
