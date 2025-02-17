@@ -6,6 +6,8 @@ namespace Vehicle_Assembly.Services.VehicleService
     public interface IVehicleService
     {
         BaseResponse GetVehicles();
-        
+
+        BaseResponse PutVehicles(PutVehicleRequest request);
+
     }
 }

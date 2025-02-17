@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vehicle_Assembly.DTOs.Requests;
+using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
+using Vehicle_Assembly.Services.VehicleService;
+using Vehicle_Assembly.Services.WorkerService;
 
 namespace Vehicle_Assembly.Controllers
 {
@@ -8,41 +12,23 @@ namespace Vehicle_Assembly.Controllers
     [ApiController]
     public class WorkerController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IWorkerService workerService;
 
-        public WorkerController(ApplicationDbContext context)
+        public WorkerController(IWorkerService workerService)
         {
-            _context = context;
+            this.workerService = workerService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkerModel>>> GetWorkers()
+        public BaseResponse WorkerList()
         {
-            return await _context.worker.ToListAsync();
+            return workerService.GetWorkers();
         }
 
         [HttpPost]
-        public async Task<ActionResult<WorkerModel>> PostWorker(WorkerModel worker)
+        public BaseResponse AddWorker(PutWorkerRequest request)
         {
-            if (worker == null)
-            {
-                return BadRequest("Invalid worker data.");
-            }
-
-            if ((worker.NIC) <= 0 ||
-                string.IsNullOrWhiteSpace(worker.firstname) ||
-                string.IsNullOrWhiteSpace(worker.lastname) ||
-                string.IsNullOrWhiteSpace(worker.email) ||
-                string.IsNullOrWhiteSpace(worker.address) ||
-                string.IsNullOrWhiteSpace(worker.job_role))
-            {
-                return BadRequest("All fields are required.");
-            }
-
-            _context.worker.Add(worker);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetWorkers), new { id = worker.NIC }, worker);
+            return workerService.PutWorker(request);
         }
     }
 }

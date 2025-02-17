@@ -1,45 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.DTOs;
 using Vehicle_Assembly.DTOs.Requests;
-using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
 
-namespace Vehicle_Assembly.Services.VehicleService
+namespace Vehicle_Assembly.Services.WorkerService
 {
-    public class VehicleService : IVehicleService
+    public class WorkerService : IWorkerService
     {
         private readonly ApplicationDbContext context;
 
-        public VehicleService(ApplicationDbContext context)
+        public WorkerService(ApplicationDbContext context)
         {
             this.context = context;
         }
 
-        public BaseResponse GetVehicles() 
+        public BaseResponse GetWorkers()
         {
             BaseResponse response;
             try
             {
-                List<VehicleDTO> vehicles = new List<VehicleDTO>();
+                List<WorkerDTO> workers = new List<WorkerDTO>();
 
-                using (context) 
+                using (context)
                 {
-                    context.vehicle.ToList().ForEach(vehicle => vehicles.Add(new VehicleDTO
+                    context.worker.ToList().ForEach(worker => workers.Add(new WorkerDTO
                     {
-                        vehicle_id = vehicle.vehicle_id,
-                        model = vehicle.model,
-                        color = vehicle.color,
-                        engine = vehicle.engine,
+                        NIC = worker.NIC,
+                        firstname = worker.firstname,
+                        lastname = worker.lastname,
+                        email = worker.email,
+                        address = worker.address,
+                        job_role = worker.job_role,
                     }));
                 }
                 response = new BaseResponse
                 {
                     status_code = StatusCodes.Status200OK,
-                    data = new { vehicles }
+                    data = new { workers }
                 };
                 return response;
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 response = new BaseResponse
                 {
@@ -51,26 +52,28 @@ namespace Vehicle_Assembly.Services.VehicleService
             }
         }
 
-        public BaseResponse PutVehicles(PutVehicleRequest request)
+        public BaseResponse PutWorker(PutWorkerRequest request)
         {
             BaseResponse response;
             try
             {
-                VehicleModel newVehicle = new VehicleModel();
-                newVehicle.model = request.model;
-                newVehicle.color = request.color;
-                newVehicle.engine = request.engine;
-
+                WorkerModel newWorker = new WorkerModel();
+                newWorker.NIC = request.NIC;
+                newWorker.firstname = request.firstname;
+                newWorker.lastname = request.lastname;
+                newWorker.email = request.email;
+                newWorker.address = request.address;
+                newWorker.job_role = request.job_role;
 
                 using (context)
                 {
-                    context.Add(newVehicle);
+                    context.Add(newWorker);
                     context.SaveChanges();
                 }
                 response = new BaseResponse
                 {
                     status_code = StatusCodes.Status200OK,
-                    data = new { message = "Successfully created a Vehicle Record" }
+                    data = new { message = "Successfully created a Worker Record" }
                 };
                 return response;
             }

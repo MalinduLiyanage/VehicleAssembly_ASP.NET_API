@@ -24,6 +24,12 @@ namespace Vehicle_Assembly.Controllers
             return vehicleService.GetVehicles();
         }
 
-       
+        [HttpPost]
+        public BaseResponse AddVehicle(PutVehicleRequest request)
+        {
+            return vehicleService.PutVehicles(request);
+        }
+
+
     }
 }
