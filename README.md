@@ -16,8 +16,34 @@ Each worker can be responsible for assembling multiple vehicles, and each vehicl
 <h2>The Relational Schema for the System</h2> 
 <img src="https://github.com/user-attachments/assets/97cf9c95-2a3e-4dc7-9677-bcdeff620bc1">
 
-<h2>Config the API</h2>
+<h2>SQL Create Table Queries</h2> 
 
-```sh
-docker compose up --build
+```
+CREATE TABLE vehicle (
+    vehicle_id INT PRIMARY KEY auto_increment,
+    model VARCHAR(100) NOT NULL,
+    color VARCHAR(50) NOT NULL,
+    engine VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE worker (
+    nic INT PRIMARY KEY NOT NULL,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+    job_role VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE assembles (
+    nic INT NOT NULL,
+    vehicle_id INT NOT NULL,
+    date DATE NOT NULL,
+    isCompleted BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (nic, vehicle_id),
+    FOREIGN KEY (nic) REFERENCES worker(nic),
+    FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id)
+);
+
+
 ```
