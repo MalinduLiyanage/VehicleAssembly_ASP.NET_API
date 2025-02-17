@@ -1,11 +1,5 @@
 {
   "profiles": {
-    "Docker Compose": {
-      "commandName": "DockerCompose",
-      "commandVersion": "1.0",
-      "serviceActions": {
-        "vehicle_assembly": "StartDebugging"
-      }
-    }
+    
   }
 }
