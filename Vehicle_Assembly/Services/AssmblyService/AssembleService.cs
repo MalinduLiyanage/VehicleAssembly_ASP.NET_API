@@ -6,16 +6,19 @@ using Vehicle_Assembly.DTOs.Requests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
 using Vehicle_Assembly.Services.AssmblyService;
+using Vehicle_Assembly.Services.EmailService;
 
 namespace Vehicle_Assembly.Services.AssembleService
 {
     public class AssembleService : IAssembleService
     {
         private readonly ApplicationDbContext context;
+        private readonly IEmailService emailService;
 
-        public AssembleService(ApplicationDbContext context)
+        public AssembleService(ApplicationDbContext context, IEmailService emailService)
         {
             this.context = context;
+            this.emailService = emailService;
         }
 
         public BaseResponse GetAssembles(int? vehicle_id, int? worker_id)
@@ -31,6 +34,7 @@ namespace Vehicle_Assembly.Services.AssembleService
                     var query = context.assembles
                         .Include(a => a.Vehicle)
                         .Include(a => a.Worker)
+                        .Include(a => a.Admin)
                         .AsQueryable();
 
                     if (vehicle_id.HasValue)
@@ -41,6 +45,7 @@ namespace Vehicle_Assembly.Services.AssembleService
 
                     query.ToList().ForEach(a => assembles.Add(new AssembleDTO
                     {
+                        assignee_id = a.assignee_id,
                         vehicle_id = a.vehicle_id,
                         model = a.Vehicle.model,
                         color = a.Vehicle.color,
@@ -110,8 +115,9 @@ namespace Vehicle_Assembly.Services.AssembleService
                     return response;
                 }
 
-                var newAssemble = new AssembleModel
+                AssembleModel newAssemble = new AssembleModel
                 {
+                    assignee_id = request.assignee_id,
                     vehicle_id = request.vehicle_id,
                     NIC = request.nic,
                     date = request.date,
@@ -120,6 +126,19 @@ namespace Vehicle_Assembly.Services.AssembleService
 
                 context.assembles.Add(newAssemble);
                 context.SaveChanges();
+
+                SendEmailRequest emailRequest = new SendEmailRequest 
+                { 
+                    recipientName = "Worker " + request.nic,
+                    recipientEmail = "email@gmail.com",
+                    subject = "Assemble Job Assignment",
+                    body = "You are assigned to the Vehicle : " + request.vehicle_id + 
+                            " is scheduled to be completed on " + request.date 
+                            + " Assigned By Admin : " + request.assignee_id
+
+                };
+
+                emailService.SendEmail(emailRequest);
 
                 response = new BaseResponse
                 {
