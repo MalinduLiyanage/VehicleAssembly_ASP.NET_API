@@ -44,11 +44,13 @@ namespace Vehicle_Assembly.Services.AssembleService
                         query = query.Where(a => a.NIC == worker_id.Value);
 
                     if (assignee_id.HasValue)
-                        query = query.Where(a => a.NIC == assignee_id.Value);
+                        query = query.Where(a => a.assignee_id == assignee_id.Value);
 
                     query.ToList().ForEach(a => assembles.Add(new AssembleDTO
                     {
                         assignee_id = a.assignee_id,
+                        assignee_first_name = a.Admin.firstname,
+                        assignee_last_name = a.Admin.lastname,
                         vehicle_id = a.vehicle_id,
                         model = a.Vehicle.model,
                         color = a.Vehicle.color,
@@ -167,7 +169,11 @@ namespace Vehicle_Assembly.Services.AssembleService
                 response = new BaseResponse
                 {
                     status_code = StatusCodes.Status200OK,
-                    data = new { message = "Assemble record created successfully!" }
+                    data = new 
+                    { 
+                        message = "Assemble record created successfully!" ,
+                        email_status = emailService.SendEmail(emailRequest)
+                    }
                 };
             }
             catch (Exception ex)

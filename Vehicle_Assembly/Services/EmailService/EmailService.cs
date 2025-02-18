@@ -58,7 +58,7 @@ namespace Vehicle_Assembly.Services.EmailService
                     response = new BaseResponse
                     {
                         status_code = StatusCodes.Status200OK,
-                        data = new { message = "Email sent successfully!" }
+                        data = new { message = "Notification Email sent successfully!" }
                     };
                 }
                 catch (Exception ex)
@@ -66,7 +66,7 @@ namespace Vehicle_Assembly.Services.EmailService
                     response = new BaseResponse
                     {
                         status_code = StatusCodes.Status500InternalServerError,
-                        data = new { message = "Failed to send email.", error = ex.Message }
+                        data = new { message = "Failed to send the Notification email.", error = ex.Message }
                     };
                 }
             }

@@ -3,6 +3,8 @@
     public class AssembleDTO
     {
         public int assignee_id { get; set; }
+        public string assignee_first_name { get; set; }
+        public string assignee_last_name { get; set; }
         public int vehicle_id { get; set; }
         public string model { get; set; }
         public string color { get; set; }
