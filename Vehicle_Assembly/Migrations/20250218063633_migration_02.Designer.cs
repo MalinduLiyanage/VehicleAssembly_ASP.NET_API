@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Vehicle_Assembly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250217125200_migration_01")]
-    partial class migration_01
+    [Migration("20250218063633_migration_02")]
+    partial class migration_02
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,12 +24,40 @@ namespace Vehicle_Assembly.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Vehicle_Assembly.Models.AdminModel", b =>
+                {
+                    b.Property<int>("NIC")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("NIC"));
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("firstname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("lastname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("NIC");
+
+                    b.ToTable("admin");
+                });
+
             modelBuilder.Entity("Vehicle_Assembly.Models.AssembleModel", b =>
                 {
                     b.Property<int>("vehicle_id")
                         .HasColumnType("int");
 
                     b.Property<int>("NIC")
+                        .HasColumnType("int");
+
+                    b.Property<int>("assignee_id")
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("date")
@@ -41,6 +69,8 @@ namespace Vehicle_Assembly.Migrations
                     b.HasKey("vehicle_id", "NIC");
 
                     b.HasIndex("NIC");
+
+                    b.HasIndex("assignee_id");
 
                     b.ToTable("assembles");
                 });
@@ -111,11 +141,19 @@ namespace Vehicle_Assembly.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Vehicle_Assembly.Models.AdminModel", "Admin")
+                        .WithMany()
+                        .HasForeignKey("assignee_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Vehicle_Assembly.Models.VehicleModel", "Vehicle")
                         .WithMany()
                         .HasForeignKey("vehicle_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Admin");
 
                     b.Navigation("Vehicle");
 

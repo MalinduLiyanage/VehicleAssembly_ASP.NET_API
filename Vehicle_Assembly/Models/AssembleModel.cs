@@ -7,6 +7,7 @@ namespace Vehicle_Assembly.Models
     [PrimaryKey(nameof(vehicle_id), nameof(NIC))]
     public class AssembleModel
     {
+        public int assignee_id { get; set; }
         public int vehicle_id { get; set; }
         public int NIC { get; set; }
         public DateOnly date { get; set; }
@@ -16,5 +17,7 @@ namespace Vehicle_Assembly.Models
         public VehicleModel Vehicle { get; set; }
         [ForeignKey("NIC")]
         public WorkerModel Worker { get; set; }
+        [ForeignKey("assignee_id")]
+        public AdminModel Admin { get; set; }
     }
 }

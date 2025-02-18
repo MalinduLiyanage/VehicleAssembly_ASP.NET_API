@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Vehicle_Assembly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250218061914_migration_01")]
+    partial class migration_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,9 +57,6 @@ namespace Vehicle_Assembly.Migrations
                     b.Property<int>("NIC")
                         .HasColumnType("int");
 
-                    b.Property<int>("assignee_id")
-                        .HasColumnType("int");
-
                     b.Property<DateOnly>("date")
                         .HasColumnType("date");
 
@@ -66,8 +66,6 @@ namespace Vehicle_Assembly.Migrations
                     b.HasKey("vehicle_id", "NIC");
 
                     b.HasIndex("NIC");
-
-                    b.HasIndex("assignee_id");
 
                     b.ToTable("assembles");
                 });
@@ -138,19 +136,11 @@ namespace Vehicle_Assembly.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Vehicle_Assembly.Models.AdminModel", "Admin")
-                        .WithMany()
-                        .HasForeignKey("assignee_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Vehicle_Assembly.Models.VehicleModel", "Vehicle")
                         .WithMany()
                         .HasForeignKey("vehicle_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Admin");
 
                     b.Navigation("Vehicle");
 

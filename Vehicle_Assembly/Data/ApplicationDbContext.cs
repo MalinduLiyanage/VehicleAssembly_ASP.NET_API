@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<VehicleModel> vehicle { get; set; }
     public DbSet<WorkerModel> worker { get; set; }
     public DbSet<AssembleModel> assembles { get; set; }
+    public DbSet<AdminModel> admins { get; set; }
 
 }
 
