@@ -28,14 +28,23 @@ namespace Vehicle_Assembly.Services.EmailService
             int smtpPort = int.Parse(emailSettings["SmtpPort"]);
 
             MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(senderName, senderEmail));
-            message.To.Add(new MailboxAddress(request.recipientName, request.recipientEmail));
-            message.Subject = request.subject;
-            message.Body = new TextPart("plain") { Text = request.body };
+            BodyBuilder bodyBuilder = new BodyBuilder();
 
-            //message.To.Add(new MailboxAddress("request.recipientName", "email@gmail.com"));
-            //message.Subject = "equest.subject";
-            //message.Body = new TextPart("plain") { Text = "request.body" };
+            string emailTemplate = Path.Combine(Directory.GetCurrentDirectory(), "Views", "SendEmailView", "SendEmailTemplate.html");
+            string emailBody = File.ReadAllText(emailTemplate);
+            emailBody = emailBody.Replace("{{WorkerName}}", request.request.WorkerName)
+                .Replace("{{model}}", request.request.model)
+                .Replace("{{vehicle_id}}", "" + request.request.vehicle_id)
+                .Replace("{{date}}", "" + request.request.date)
+                .Replace("{{assignee_first_name}}", request.request.assignee_first_name)
+                .Replace("{{assignee_last_name}}", request.request.assignee_last_name)
+                .Replace("{{assignee_id}}", "" + request.request.assignee_id);
+            bodyBuilder.HtmlBody = emailBody;
+
+            message.From.Add(new MailboxAddress(senderName, senderEmail));
+            message.To.Add(new MailboxAddress(request.request.WorkerName, request.request.email));
+            message.Subject = "Assemble Job Assignment - " + request.request.date;
+            message.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = bodyBuilder.HtmlBody };
 
             using (SmtpClient client = new SmtpClient())
             {

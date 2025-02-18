@@ -19,9 +19,9 @@ namespace Vehicle_Assembly.Controllers
         }
 
         [HttpGet]
-        public BaseResponse GetAssembles([FromQuery] int? vehicle_id, [FromQuery] int? worker_id)
+        public BaseResponse GetAssembles([FromQuery] int? vehicle_id, [FromQuery] int? worker_id, [FromQuery] int? assignee_id)
         {
-            return assembleService.GetAssembles(vehicle_id, worker_id);
+            return assembleService.GetAssembles(vehicle_id, worker_id, assignee_id);
         }
 
         [HttpPost]

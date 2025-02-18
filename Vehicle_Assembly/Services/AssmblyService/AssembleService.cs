@@ -21,7 +21,7 @@ namespace Vehicle_Assembly.Services.AssembleService
             this.emailService = emailService;
         }
 
-        public BaseResponse GetAssembles(int? vehicle_id, int? worker_id)
+        public BaseResponse GetAssembles(int? vehicle_id, int? worker_id, int? assignee_id)
         {
             BaseResponse response;
             try
@@ -42,6 +42,9 @@ namespace Vehicle_Assembly.Services.AssembleService
 
                     if (worker_id.HasValue)
                         query = query.Where(a => a.NIC == worker_id.Value);
+
+                    if (assignee_id.HasValue)
+                        query = query.Where(a => a.NIC == assignee_id.Value);
 
                     query.ToList().ForEach(a => assembles.Add(new AssembleDTO
                     {
@@ -136,17 +139,27 @@ namespace Vehicle_Assembly.Services.AssembleService
                 };
 
                 context.assembles.Add(newAssemble);
-                context.SaveChanges();       
+                context.SaveChanges();
+
+                EmailDTO emailInfo = new EmailDTO
+                {
+                    assignee_id = request.assignee_id,
+                    assignee_first_name = admin.firstname,
+                    assignee_last_name = admin.lastname,
+                    vehicle_id = vehicle.vehicle_id,
+                    model = vehicle.model,
+                    color = vehicle.color,
+                    engine = vehicle.engine,
+                    NIC = worker.NIC,
+                    WorkerName = $"{worker.firstname} {worker.lastname}",
+                    email = worker.email,
+                    job_role = worker.job_role,
+                    date = request.date
+                };
 
                 SendEmailRequest emailRequest = new SendEmailRequest 
                 { 
-                    recipientName = $"{worker.firstname} {worker.lastname}",
-                    recipientEmail = worker.email,
-                    subject = "Assemble Job Assignment - " + request.date,
-                    body = "You are assigned to the Vehicle : " + " " + vehicle.model + " with the ID " + request.vehicle_id + 
-                            " which is scheduled to be completed on " + request.date 
-                            + " Assigned By Admin : " + $"{admin.firstname} {admin.lastname} with the ID " + request.assignee_id
-
+                    request = emailInfo
                 };
 
                 emailService.SendEmail(emailRequest);

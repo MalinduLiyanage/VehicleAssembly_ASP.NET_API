@@ -6,7 +6,7 @@ namespace Vehicle_Assembly.Services.AssmblyService
 {
     public interface IAssembleService
     {
-        BaseResponse GetAssembles(int? vehicle_id, int? worker_id);
+        BaseResponse GetAssembles(int? vehicle_id, int? worker_id, int? assignee_id);
         BaseResponse CreateAssemble(PutAssembleRequest request);
     }
 }
