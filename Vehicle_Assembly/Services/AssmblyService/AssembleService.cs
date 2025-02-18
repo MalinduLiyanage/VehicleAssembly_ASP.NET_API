@@ -93,8 +93,8 @@ namespace Vehicle_Assembly.Services.AssembleService
                     return response;
                 }
 
-                var vehicleExists = context.vehicle.Any(v => v.vehicle_id == request.vehicle_id);
-                if (!vehicleExists)
+                VehicleModel vehicle = context.vehicle.FirstOrDefault(v => v.vehicle_id == request.vehicle_id);
+                if (vehicle == null)
                 {
                     response = new BaseResponse
                     {
@@ -104,13 +104,24 @@ namespace Vehicle_Assembly.Services.AssembleService
                     return response;
                 }
 
-                var workerExists = context.worker.Any(w => w.NIC == request.nic);
-                if (!workerExists)
+                WorkerModel worker = context.worker.FirstOrDefault(w => w.NIC == request.nic);
+                if (worker == null)
                 {
                     response = new BaseResponse
                     {
                         status_code = StatusCodes.Status404NotFound,
                         data = new { message = "Invalid NIC. Worker does not exist." }
+                    };
+                    return response;
+                }
+
+                AdminModel admin = context.admins.FirstOrDefault(a => a.NIC == request.assignee_id);
+                if (admin == null)
+                {
+                    response = new BaseResponse
+                    {
+                        status_code = StatusCodes.Status404NotFound,
+                        data = new { message = "Invalid Assignee ID. Admin does not exist." }
                     };
                     return response;
                 }
@@ -125,16 +136,16 @@ namespace Vehicle_Assembly.Services.AssembleService
                 };
 
                 context.assembles.Add(newAssemble);
-                context.SaveChanges();
+                context.SaveChanges();       
 
                 SendEmailRequest emailRequest = new SendEmailRequest 
                 { 
-                    recipientName = "Worker " + request.nic,
-                    recipientEmail = "email@gmail.com",
-                    subject = "Assemble Job Assignment",
-                    body = "You are assigned to the Vehicle : " + request.vehicle_id + 
-                            " is scheduled to be completed on " + request.date 
-                            + " Assigned By Admin : " + request.assignee_id
+                    recipientName = $"{worker.firstname} {worker.lastname}",
+                    recipientEmail = worker.email,
+                    subject = "Assemble Job Assignment - " + request.date,
+                    body = "You are assigned to the Vehicle : " + " " + vehicle.model + " with the ID " + request.vehicle_id + 
+                            " which is scheduled to be completed on " + request.date 
+                            + " Assigned By Admin : " + $"{admin.firstname} {admin.lastname} with the ID " + request.assignee_id
 
                 };
 
