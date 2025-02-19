@@ -3,7 +3,7 @@ using System.Globalization;
 using Vehicle_Assembly.DTOs.Requests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
-using Vehicle_Assembly.Services.ValidationService.AssembleRequest;
+using Vehicle_Assembly.Utilities.ValidationService.AssembleRequest;
 
 namespace Vehicle_Assembly.Attributes
 {

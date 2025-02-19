@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Vehicle_Assembly.DTOs.Requests;
 using Vehicle_Assembly.DTOs.Responses;
-using Vehicle_Assembly.Services.EmailService;
 using Vehicle_Assembly.Services.VehicleService;
+using Vehicle_Assembly.Utilities.EmailService;
 
 namespace Vehicle_Assembly.Controllers
 {

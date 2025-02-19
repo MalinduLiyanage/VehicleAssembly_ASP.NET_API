@@ -9,8 +9,7 @@ using Vehicle_Assembly.DTOs.Requests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
 using Vehicle_Assembly.Services.AssmblyService;
-using Vehicle_Assembly.Services.EmailService;
-using Vehicle_Assembly.Services.ValidationService.AssembleRequest;
+using Vehicle_Assembly.Utilities.EmailService;
 
 namespace Vehicle_Assembly.Services.AssembleService
 {
@@ -129,8 +128,6 @@ namespace Vehicle_Assembly.Services.AssembleService
                 { 
                     request = emailInfo
                 };
-
-                emailService.SendEmail(emailRequest);
 
                 response = new BaseResponse
                 {

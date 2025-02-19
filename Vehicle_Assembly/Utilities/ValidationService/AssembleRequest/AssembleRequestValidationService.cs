@@ -1,6 +1,6 @@
 ﻿using Vehicle_Assembly.DTOs.Requests;
 
-namespace Vehicle_Assembly.Services.ValidationService.AssembleRequest
+namespace Vehicle_Assembly.Utilities.ValidationService.AssembleRequest
 {
     public class AssembleRequestValidationService : IAssembleRequestValidationService
     {

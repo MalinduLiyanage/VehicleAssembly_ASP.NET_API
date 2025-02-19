@@ -6,9 +6,9 @@ using Vehicle_Assembly.Services.VehicleService;
 using Vehicle_Assembly.Services.WorkerService;
 using Vehicle_Assembly.Services.AssmblyService;
 using Vehicle_Assembly.Services.AssembleService;
-using Vehicle_Assembly.Services.EmailService;
 using Vehicle_Assembly.Services.AdminService;
-using Vehicle_Assembly.Services.ValidationService.AssembleRequest;
+using Vehicle_Assembly.Utilities.EmailService;
+using Vehicle_Assembly.Utilities.ValidationService.AssembleRequest;
 
 var builder = WebApplication.CreateBuilder(args);
 
