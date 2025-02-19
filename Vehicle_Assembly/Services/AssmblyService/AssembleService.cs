@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using Vehicle_Assembly.DTOs;
 using Vehicle_Assembly.DTOs.Requests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
 using Vehicle_Assembly.Services.AssmblyService;
 using Vehicle_Assembly.Services.EmailService;
+using Vehicle_Assembly.Services.ValidationService.AssembleRequest;
 
 namespace Vehicle_Assembly.Services.AssembleService
 {
@@ -88,48 +92,6 @@ namespace Vehicle_Assembly.Services.AssembleService
             BaseResponse response;
             try
             {
-                if (request.vehicle_id <= 0 || request.nic <= 0 || request.date == default)
-                {
-                    response = new BaseResponse
-                    {
-                        status_code = StatusCodes.Status400BadRequest,
-                        data = new { message = "All fields are required" }
-                    };
-                    return response;
-                }
-
-                VehicleModel vehicle = context.vehicle.FirstOrDefault(v => v.vehicle_id == request.vehicle_id);
-                if (vehicle == null)
-                {
-                    response = new BaseResponse
-                    {
-                        status_code = StatusCodes.Status404NotFound,
-                        data = new { message = "Invalid Vehicle ID. Vehicle does not exist." }
-                    };
-                    return response;
-                }
-
-                WorkerModel worker = context.worker.FirstOrDefault(w => w.NIC == request.nic);
-                if (worker == null)
-                {
-                    response = new BaseResponse
-                    {
-                        status_code = StatusCodes.Status404NotFound,
-                        data = new { message = "Invalid NIC. Worker does not exist." }
-                    };
-                    return response;
-                }
-
-                AdminModel admin = context.admins.FirstOrDefault(a => a.NIC == request.assignee_id);
-                if (admin == null)
-                {
-                    response = new BaseResponse
-                    {
-                        status_code = StatusCodes.Status404NotFound,
-                        data = new { message = "Invalid Assignee ID. Admin does not exist." }
-                    };
-                    return response;
-                }
 
                 AssembleModel newAssemble = new AssembleModel
                 {
@@ -142,6 +104,10 @@ namespace Vehicle_Assembly.Services.AssembleService
 
                 context.assembles.Add(newAssemble);
                 context.SaveChanges();
+
+                VehicleModel vehicle = context.vehicle.FirstOrDefault(v => v.vehicle_id == request.vehicle_id);
+                WorkerModel worker = context.worker.FirstOrDefault(w => w.NIC == request.nic);
+                AdminModel admin = context.admins.FirstOrDefault(a => a.NIC == request.assignee_id);
 
                 EmailDTO emailInfo = new EmailDTO
                 {
@@ -187,5 +153,6 @@ namespace Vehicle_Assembly.Services.AssembleService
             return response;
 
         }
+
     }
 }

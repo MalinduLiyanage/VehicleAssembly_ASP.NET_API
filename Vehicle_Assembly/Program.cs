@@ -8,6 +8,7 @@ using Vehicle_Assembly.Services.AssmblyService;
 using Vehicle_Assembly.Services.AssembleService;
 using Vehicle_Assembly.Services.EmailService;
 using Vehicle_Assembly.Services.AdminService;
+using Vehicle_Assembly.Services.ValidationService.AssembleRequest;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Services.AddScoped<IWorkerService, WorkerService>();
 builder.Services.AddScoped<IAssembleService, AssembleService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAssembleRequestValidationService, AssembleRequestValidationService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

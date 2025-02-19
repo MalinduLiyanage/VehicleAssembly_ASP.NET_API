@@ -1,7 +1,10 @@
-﻿namespace Vehicle_Assembly.DTOs.Requests
+﻿using Vehicle_Assembly.Attributes;
+
+namespace Vehicle_Assembly.DTOs.Requests
 {
     public class PutAssembleRequest
     {
+        [AssembleRequestValidation]
         public int assignee_id { get; set; }
         public int vehicle_id { get; set; }
         public int nic { get; set; }
