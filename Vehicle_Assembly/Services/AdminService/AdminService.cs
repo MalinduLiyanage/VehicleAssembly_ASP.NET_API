@@ -2,6 +2,7 @@
 using Vehicle_Assembly.DTOs.Requests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
+using Vehicle_Assembly.Utilities.AccountUtility.AdminAccount;
 
 namespace Vehicle_Assembly.Services.AdminService
 {
@@ -50,6 +51,7 @@ namespace Vehicle_Assembly.Services.AdminService
         public BaseResponse PutAdmin(PutAdminRequest request)
         {
             BaseResponse response;
+            AdminAccountUtility password = new AdminAccountUtility();
             try
             {
                 AdminModel newAdmin = new AdminModel();
@@ -57,6 +59,7 @@ namespace Vehicle_Assembly.Services.AdminService
                 newAdmin.firstname = request.firstname;
                 newAdmin.lastname = request.lastname;
                 newAdmin.email = request.email;
+                newAdmin.password = password.PasswordHash;
 
                 using (context)
                 {

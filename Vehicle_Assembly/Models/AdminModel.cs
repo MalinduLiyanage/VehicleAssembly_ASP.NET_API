@@ -8,8 +8,9 @@ namespace Vehicle_Assembly.Models
     {
         [Key]
         public int NIC { get; set; }
-        public string firstname { get; set; }
-        public string lastname { get; set; }
-        public string email { get; set; }
+        public string? firstname { get; set; }
+        public string? lastname { get; set; }
+        public string? email { get; set; }
+        public byte[]? password { get; set; }
     }
 }

@@ -104,9 +104,9 @@ namespace Vehicle_Assembly.Services.AssembleService
                 context.assembles.Add(newAssemble);
                 context.SaveChanges();
 
-                VehicleModel vehicle = context.vehicle.FirstOrDefault(v => v.vehicle_id == request.vehicle_id);
-                WorkerModel worker = context.worker.FirstOrDefault(w => w.NIC == request.nic);
-                AdminModel admin = context.admins.FirstOrDefault(a => a.NIC == request.assignee_id);
+                VehicleModel? vehicle = context.vehicle.FirstOrDefault(v => v.vehicle_id == request.vehicle_id);
+                WorkerModel? worker = context.worker.FirstOrDefault(w => w.NIC == request.nic);
+                AdminModel? admin = context.admins.FirstOrDefault(a => a.NIC == request.assignee_id);
 
                 EmailDTO emailInfo = new EmailDTO
                 {
