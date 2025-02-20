@@ -1,5 +1,4 @@
-﻿
-namespace Vehicle_Assembly.DTOs.Requests
+﻿namespace Vehicle_Assembly.DTOs.Requests.EmailRequests
 {
     public class SendEmailRequest
     {

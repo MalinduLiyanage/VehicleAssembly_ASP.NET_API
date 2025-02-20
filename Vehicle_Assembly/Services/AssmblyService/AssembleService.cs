@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Tls;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using Vehicle_Assembly.DTOs;
 using Vehicle_Assembly.DTOs.Requests;
+using Vehicle_Assembly.DTOs.Requests.EmailRequests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
 using Vehicle_Assembly.Services.AssmblyService;
 using Vehicle_Assembly.Utilities.EmailService;
+using Vehicle_Assembly.Utilities.EmailService.AssemblyEmail;
 
 namespace Vehicle_Assembly.Services.AssembleService
 {
@@ -124,10 +127,12 @@ namespace Vehicle_Assembly.Services.AssembleService
                     date = request.date
                 };
 
-                SendEmailRequest emailRequest = new SendEmailRequest 
-                { 
+                SendEmailRequest emailRequest = new SendEmailRequest
+                {
                     request = emailInfo
                 };
+
+                AssemblyEmailSender message = new AssemblyEmailSender(emailRequest);
 
                 response = new BaseResponse
                 {
@@ -135,7 +140,7 @@ namespace Vehicle_Assembly.Services.AssembleService
                     data = new 
                     { 
                         message = "Assemble record created successfully!" ,
-                        email_status = emailService.SendEmail(emailRequest)
+                        email_status = emailService.SendEmail(message)
                     }
                 };
             }

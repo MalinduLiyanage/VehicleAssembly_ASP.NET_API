@@ -17,7 +17,7 @@ namespace Vehicle_Assembly.Utilities.EmailService
             this.configuration = configuration;
         }
 
-        public async Task<BaseResponse> SendEmail(SendEmailRequest request)
+        public async Task<BaseResponse> SendEmail(MimeMessage message)
         {
             BaseResponse response = new BaseResponse();
 
@@ -28,8 +28,7 @@ namespace Vehicle_Assembly.Utilities.EmailService
             string smtpServer = emailSettings["SmtpServer"];
             int smtpPort = int.Parse(emailSettings["SmtpPort"]);
 
-            AssemblyEmailSender message = new AssemblyEmailSender(request, senderName, senderEmail);
-
+            message.From.Add(new MailboxAddress(senderName, senderEmail));
 
             using (SmtpClient client = new SmtpClient())
             {
@@ -43,7 +42,7 @@ namespace Vehicle_Assembly.Utilities.EmailService
                     response = new BaseResponse
                     {
                         status_code = StatusCodes.Status200OK,
-                        data = new { message = "Notification Email sent successfully!" }
+                        data = new { message = "Email sent successfully!" }
                     };
                 }
                 catch (Exception ex)
@@ -51,7 +50,7 @@ namespace Vehicle_Assembly.Utilities.EmailService
                     response = new BaseResponse
                     {
                         status_code = StatusCodes.Status500InternalServerError,
-                        data = new { message = "Failed to send the Notification email.", error = ex.Message }
+                        data = new { message = "Failed to send the Email.", error = ex.Message }
                     };
                 }
             }

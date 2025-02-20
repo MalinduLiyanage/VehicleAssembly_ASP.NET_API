@@ -1,17 +1,23 @@
 ﻿using Vehicle_Assembly.DTOs;
 using Vehicle_Assembly.DTOs.Requests;
+using Vehicle_Assembly.DTOs.Requests.EmailRequests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
 using Vehicle_Assembly.Utilities.AccountUtility.AdminAccount;
+using Vehicle_Assembly.Utilities.EmailService;
+using Vehicle_Assembly.Utilities.EmailService.AccountCreation;
+using Vehicle_Assembly.Utilities.EmailService.AssemblyEmail;
 
 namespace Vehicle_Assembly.Services.AdminService
 {
     public class AdminService : IAdminService
     {
         private readonly ApplicationDbContext context;
-        public AdminService(ApplicationDbContext context)
+        private readonly IEmailService emailService;
+        public AdminService(ApplicationDbContext context, IEmailService emailService)
         {
             this.context = context;
+            this.emailService = emailService;
         }
         public BaseResponse GetAdmins()
         {
@@ -61,6 +67,17 @@ namespace Vehicle_Assembly.Services.AdminService
                 newAdmin.email = request.email;
                 newAdmin.password = password.PasswordHash;
 
+                AdminAccountEmailRequest AccCreationRequest = new AdminAccountEmailRequest
+                {
+                    NIC = request.NIC,
+                    firstname = request.firstname,
+                    lastname = request.lastname,
+                    email = request.email,
+                    password = password.generatedPassword
+                };
+
+                AdminAccountCreation message = new AdminAccountCreation(AccCreationRequest);
+
                 using (context)
                 {
                     context.Add(newAdmin);
@@ -69,7 +86,11 @@ namespace Vehicle_Assembly.Services.AdminService
                 response = new BaseResponse
                 {
                     status_code = StatusCodes.Status200OK,
-                    data = new { message = "Successfully created a Admin Record" }
+                    data = new { 
+                        message = "Successfully created a Admin Record",
+                        email_status = emailService.SendEmail(message)
+                    }
+
                 };
                 return response;
             }

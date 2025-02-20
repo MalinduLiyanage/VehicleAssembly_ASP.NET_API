@@ -1,14 +1,14 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using Vehicle_Assembly.DTOs.Requests;
+using Vehicle_Assembly.DTOs.Requests.EmailRequests;
 using Vehicle_Assembly.DTOs.Responses;
 
 namespace Vehicle_Assembly.Utilities.EmailService.AssemblyEmail
 {
     public class AssemblyEmailSender : MimeMessage
     {
-        public AssemblyEmailSender(SendEmailRequest request, String senderName, String senderEmail) 
+        public AssemblyEmailSender(SendEmailRequest request) 
         {
             BodyBuilder bodyBuilder = new BodyBuilder();
 
@@ -23,7 +23,6 @@ namespace Vehicle_Assembly.Utilities.EmailService.AssemblyEmail
                 .Replace("{{assignee_id}}", "" + request.request.assignee_id);
             bodyBuilder.HtmlBody = emailBody;
 
-            this.From.Add(new MailboxAddress(senderName, senderEmail));
             this.To.Add(new MailboxAddress(request.request.WorkerName, request.request.email));
             this.Subject = "Assemble Job Assignment - " + request.request.date;
             this.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = bodyBuilder.HtmlBody };
