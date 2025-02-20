@@ -23,12 +23,12 @@ namespace Vehicle_Assembly.Utilities.AccountUtility.AdminAccount
             }
             return generatedPassword;
         }
-        public bool VerifyPassword(string password)
+        public bool VerifyPassword(string userPassword, byte[] dbPassword)
         {
             using (var sha256 = SHA256.Create())
             {
-                var hashedPassword = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return StructuralComparisons.StructuralEqualityComparer.Equals(PasswordHash, hashedPassword);
+                var userHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(userPassword));
+                return StructuralComparisons.StructuralEqualityComparer.Equals(dbPassword, userHash);
             }
         }
         private static string GenerateRandomPassword(int length)

@@ -7,6 +7,8 @@ using Vehicle_Assembly.Utilities.AccountUtility.AdminAccount;
 using Vehicle_Assembly.Utilities.EmailService;
 using Vehicle_Assembly.Utilities.EmailService.AccountCreation;
 using Vehicle_Assembly.Utilities.EmailService.AssemblyEmail;
+using Vehicle_Assembly.Utilities.JwtUtility;
+using Vehicle_Assembly.Utilities.ValidationService.Jwt;
 
 namespace Vehicle_Assembly.Services.AdminService
 {
@@ -14,6 +16,7 @@ namespace Vehicle_Assembly.Services.AdminService
     {
         private readonly ApplicationDbContext context;
         private readonly IEmailService emailService;
+
         public AdminService(ApplicationDbContext context, IEmailService emailService)
         {
             this.context = context;
@@ -102,6 +105,24 @@ namespace Vehicle_Assembly.Services.AdminService
                     data = new { message = "Internal Server Error" + ex.Message }
                 };
                 return response;
+            }
+        }
+
+        public BaseResponse LoginAdmin(AuthenticateRequest request)
+        {
+            BaseResponse response;
+            try
+            {
+                JwtTokenIssue jwtTokenIssue = new JwtTokenIssue(context);
+                return jwtTokenIssue.Authenticate(request);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse
+                {
+                    status_code = StatusCodes.Status500InternalServerError,
+                    data = new { message = ex.Message }
+                };
             }
         }
     }

@@ -2,6 +2,6 @@
 {
     public interface IAdminAccountUtility
     {
-        public bool VerifyPassword(string password);
+        public bool VerifyPassword(string password, byte[] dbPassword);
     }
 }

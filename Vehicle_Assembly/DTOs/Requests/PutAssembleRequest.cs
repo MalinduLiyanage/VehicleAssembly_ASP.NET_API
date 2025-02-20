@@ -1,4 +1,5 @@
 ﻿using Vehicle_Assembly.Attributes;
+using Vehicle_Assembly.Attributes.ValidationAttributes;
 
 namespace Vehicle_Assembly.DTOs.Requests
 {

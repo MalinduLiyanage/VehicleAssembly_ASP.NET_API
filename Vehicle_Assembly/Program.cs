@@ -10,6 +10,7 @@ using Vehicle_Assembly.Services.AdminService;
 using Vehicle_Assembly.Utilities.EmailService;
 using Vehicle_Assembly.Utilities.ValidationService.AssembleRequest;
 using Vehicle_Assembly.Utilities.AccountUtility.AdminAccount;
+using Vehicle_Assembly.Attributes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Use Pomelo MySQL 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+GlobalAttributes.mySQLConfig.connectionString = connectionString;
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

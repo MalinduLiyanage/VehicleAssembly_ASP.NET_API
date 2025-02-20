@@ -6,7 +6,7 @@ namespace Vehicle_Assembly.Services.AdminService
     public interface IAdminService
     {
         BaseResponse GetAdmins();
-
         BaseResponse PutAdmin(PutAdminRequest request);
+        BaseResponse LoginAdmin(AuthenticateRequest request);
     }
 }
