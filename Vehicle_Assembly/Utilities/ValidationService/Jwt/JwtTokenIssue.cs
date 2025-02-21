@@ -35,24 +35,24 @@ namespace Vehicle_Assembly.Utilities.ValidationService.Jwt
                 if (adminAccountUtility.VerifyPassword(request.password, user.password))
                 {
                     string jwt = JwtUtils.GenerateJwtToken(user);
-                    /*
+                    
                     // save token in login details
-                    LoginDetailModel? loginDetail = dbContext.LoginDetails.Where(ld => ld.user_id == user.id).FirstOrDefault();
+                    LoginInfoModel? loginDetail = context.loginInfos.Where(ld => ld.email == user.email).FirstOrDefault();
 
                     if (loginDetail == null)
                     {
-                        loginDetail = new LoginDetailModel();
-                        loginDetail.user_id = user.id;
-                        loginDetail.token = jwt;
+                        loginDetail = new LoginInfoModel();
+                        loginDetail.email = user.email;
+                        loginDetail.jwt = jwt;
 
-                        dbContext.LoginDetails.Add(loginDetail);
+                        context.loginInfos.Add(loginDetail);
                     }
                     else
                     {
-                        loginDetail.token = jwt;
+                        loginDetail.jwt = jwt;
                     }
 
-                    context.SaveChanges();*/
+                    context.SaveChanges();
 
                     return new BaseResponse
                     {

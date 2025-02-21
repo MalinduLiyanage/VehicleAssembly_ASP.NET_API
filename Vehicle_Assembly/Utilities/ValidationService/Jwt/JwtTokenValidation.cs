@@ -46,10 +46,10 @@ namespace Vehicle_Assembly.Utilities.ValidationService.Jwt
                     }
                     else
                     {
-                        /*
-                        LoginDetailModel loginDetail = dbContext.LoginDetails.Where(ld => ld.user_id == userId).First();
+                        
+                        LoginInfoModel loginDetail = dbContext.loginInfos.Where(ld => ld.email == userEmail).First();
 
-                        if (loginDetail.token != jwt)
+                        if (loginDetail.jwt != jwt)
                         {
                             return false;
                         }
@@ -57,8 +57,7 @@ namespace Vehicle_Assembly.Utilities.ValidationService.Jwt
                         {
                            
                             return true;
-                        }*/
-                        return true;
+                        }
                     }
                 }
             }

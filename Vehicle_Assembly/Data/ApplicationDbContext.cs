@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<WorkerModel> worker { get; set; }
     public DbSet<AssembleModel> assembles { get; set; }
     public DbSet<AdminModel> admins { get; set; }
+    public DbSet<LoginInfoModel> loginInfos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

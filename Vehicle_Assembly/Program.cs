@@ -11,6 +11,7 @@ using Vehicle_Assembly.Utilities.EmailService;
 using Vehicle_Assembly.Utilities.ValidationService.AssembleRequest;
 using Vehicle_Assembly.Utilities.AccountUtility.AdminAccount;
 using Vehicle_Assembly.Attributes;
+using Vehicle_Assembly.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,15 @@ app.UseStaticFiles();
 //app.MapFallbackToFile("index.html");
 
 app.UseHttpsRedirection();
+
+app.Use(async (context, next) =>
+{
+    Console.WriteLine("Global Middleware Executing...");
+    await next();
+});
+
+
+app.UseJwtMiddleware();
 
 app.UseAuthorization();
 

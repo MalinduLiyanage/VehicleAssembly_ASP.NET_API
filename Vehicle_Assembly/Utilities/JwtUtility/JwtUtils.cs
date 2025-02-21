@@ -9,7 +9,10 @@ namespace Vehicle_Assembly.Utilities.JwtUtility
     public static class JwtUtils
     {
         static string secret = "9wr4734oXQrf0o50y9eA4onr734yriV87";
-        public static string Secret => secret;
+        public static string Secret
+        {
+            get { return secret; }
+        }
 
         public static string GenerateJwtToken(AdminModel userModel) 
         {
