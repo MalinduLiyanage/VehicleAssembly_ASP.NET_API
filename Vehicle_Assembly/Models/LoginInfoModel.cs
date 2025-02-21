@@ -7,7 +7,7 @@ namespace Vehicle_Assembly.Models
     public class LoginInfoModel
     {
         [Key]
-        public string? email { get; set; }
-        public string? jwt { get; set; }
+        public required string email { get; set; }
+        public required string jwt { get; set; }
     }
 }

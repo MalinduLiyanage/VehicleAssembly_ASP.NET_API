@@ -3,9 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Vehicle_Assembly.Models;
-using Vehicle_Assembly.Utilities.JwtUtility;
 
-namespace Vehicle_Assembly.Utilities.ValidationService.Jwt
+namespace Vehicle_Assembly.Utilities.JwtUtility
 {
     public class JwtTokenValidation
     {

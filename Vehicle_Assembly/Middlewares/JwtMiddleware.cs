@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Utilities.JwtUtility;
-using Vehicle_Assembly.Utilities.ValidationService.Jwt;
 
 namespace Vehicle_Assembly.Middlewares
 {
