@@ -25,7 +25,7 @@ namespace Vehicle_Assembly.Controllers
         }
 
         [HttpPost]
-        public BaseResponse CreateAssemble(PutAssembleRequest request)
+        public BaseResponse CreateAssemble([FromForm] PutAssembleRequest request)
         {
             return assembleService.CreateAssemble(request);
         }

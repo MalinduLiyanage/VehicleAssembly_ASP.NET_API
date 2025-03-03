@@ -11,6 +11,7 @@ using Vehicle_Assembly.DTOs.Requests.EmailRequests;
 using Vehicle_Assembly.DTOs.Responses;
 using Vehicle_Assembly.Models;
 using Vehicle_Assembly.Services.AssmblyService;
+using Vehicle_Assembly.Services.AttachmentService;
 using Vehicle_Assembly.Utilities.EmailService;
 using Vehicle_Assembly.Utilities.EmailService.AssemblyEmail;
 
@@ -20,11 +21,13 @@ namespace Vehicle_Assembly.Services.AssembleService
     {
         private readonly ApplicationDbContext context;
         private readonly IEmailService emailService;
+        private readonly IAssemblyAttachmentService assemblyAttachmentService;
 
-        public AssembleService(ApplicationDbContext context, IEmailService emailService)
+        public AssembleService(ApplicationDbContext context, IEmailService emailService, IAssemblyAttachmentService assemblyAttachmentService)
         {
             this.context = context;
             this.emailService = emailService;
+            this.assemblyAttachmentService = assemblyAttachmentService;
         }
 
         public BaseResponse GetAssembles(int? vehicle_id, int? worker_id, int? assignee_id)
@@ -103,6 +106,9 @@ namespace Vehicle_Assembly.Services.AssembleService
                     date = request.date,
                     isCompleted = request.isCompleted
                 };
+
+                AssemblyAttachmentService attachFile = new AssemblyAttachmentService();
+                attachFile.PostFileAsync(request.assembly_attachment);
 
                 context.assembles.Add(newAssemble);
                 context.SaveChanges();

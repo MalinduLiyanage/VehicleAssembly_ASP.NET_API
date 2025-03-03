@@ -1,4 +1,5 @@
-﻿using Vehicle_Assembly.Attributes;
+﻿using Microsoft.VisualBasic.FileIO;
+using Vehicle_Assembly.Attributes;
 using Vehicle_Assembly.Attributes.ValidationAttributes;
 
 namespace Vehicle_Assembly.DTOs.Requests
@@ -11,5 +12,7 @@ namespace Vehicle_Assembly.DTOs.Requests
         public int nic { get; set; }
         public DateOnly date { get; set; }
         public bool isCompleted { get; set; }
+        public IFormFile? assembly_attachment { get; set; }
     }
+
 }

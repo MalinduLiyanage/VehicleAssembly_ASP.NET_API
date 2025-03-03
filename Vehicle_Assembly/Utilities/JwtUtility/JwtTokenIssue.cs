@@ -41,7 +41,6 @@ namespace Vehicle_Assembly.Utilities.ValidationService.Jwt
 
                     if (loginDetail == null)
                     {
-                        loginDetail = new LoginInfoModel();
                         loginDetail.email = user.email;
                         loginDetail.jwt = jwt;
 
