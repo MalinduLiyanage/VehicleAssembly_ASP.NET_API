@@ -138,7 +138,7 @@ namespace Vehicle_Assembly.Services.AssembleService
                     request = emailInfo
                 };
 
-                AssemblyEmailSender message = new AssemblyEmailSender(emailRequest);
+                AssemblyEmailSender message = new AssemblyEmailSender(emailRequest, filepath);
 
                 response = new BaseResponse
                 {
