@@ -9,20 +9,16 @@ namespace Vehicle_Assembly.Services.AttachmentService
 {
     public class AssemblyAttachmentService : IAssemblyAttachmentService
     {
-        
-        public async Task PostFileAsync(PutAssembleRequest request)
+
+        public async Task<string?> PostFileAsync(PutAssembleRequest request)
         {
-            BaseResponse response;
+            string? saved_filepath = null;
+
             try
             {
-
                 if (request.assembly_attachment == null || request.assembly_attachment.Length == 0)
                 {
-                    response = new BaseResponse
-                    {
-                        status_code = StatusCodes.Status400BadRequest,
-                        data = new { message = "No file has been uploaded." }
-                    };
+                    return null; 
                 }
 
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
@@ -37,29 +33,20 @@ namespace Vehicle_Assembly.Services.AttachmentService
 
                 var filePath = Path.Combine(uploadsFolder, filename);
 
-
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await request.assembly_attachment.CopyToAsync(stream);
                 }
 
-                response = new BaseResponse
-                {
-                    status_code = StatusCodes.Status200OK,
-                    data = new
-                    {
-                        message = "File uploaded successfully!"
-                    }
-                };
+                saved_filepath = filePath;
             }
             catch (Exception ex)
             {
-                response = new BaseResponse
-                {
-                    status_code = StatusCodes.Status500InternalServerError,
-                    data = new { message = "An error occurred while uploading.", error = ex.Message }
-                };
+                saved_filepath = "Error saving file: " + ex.Message;
             }
+
+            return saved_filepath;
         }
+
     }
 }

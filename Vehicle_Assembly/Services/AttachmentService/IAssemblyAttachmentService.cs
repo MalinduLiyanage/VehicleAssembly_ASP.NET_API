@@ -5,6 +5,6 @@ namespace Vehicle_Assembly.Services.AttachmentService
 {
     public interface IAssemblyAttachmentService
     {
-        public Task PostFileAsync(PutAssembleRequest request);
+        public Task<string?> PostFileAsync(PutAssembleRequest request);
     }
 }

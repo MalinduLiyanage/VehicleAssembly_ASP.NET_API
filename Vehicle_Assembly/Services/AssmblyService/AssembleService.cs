@@ -97,6 +97,8 @@ namespace Vehicle_Assembly.Services.AssembleService
             BaseResponse response;
             try
             {
+                AssemblyAttachmentService attachFile = new AssemblyAttachmentService();
+                string filepath = attachFile.PostFileAsync(request).Result;
 
                 AssembleModel newAssemble = new AssembleModel
                 {
@@ -104,12 +106,9 @@ namespace Vehicle_Assembly.Services.AssembleService
                     vehicle_id = request.vehicle_id,
                     NIC = request.nic,
                     date = request.date,
-                    isCompleted = request.isCompleted
+                    isCompleted = request.isCompleted,
+                    attachment_path = filepath
                 };
-
-                AssemblyAttachmentService attachFile = new AssemblyAttachmentService();
-                attachFile.PostFileAsync(request);
-
 
                 context.assembles.Add(newAssemble);
                 context.SaveChanges();

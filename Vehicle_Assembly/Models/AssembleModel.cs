@@ -12,6 +12,7 @@ namespace Vehicle_Assembly.Models
         public int NIC { get; set; }
         public DateOnly date { get; set; }
         public bool isCompleted { get; set; }
+        public string? attachment_path { get; set; }
 
         [ForeignKey("vehicle_id")]
         public VehicleModel Vehicle { get; set; }
