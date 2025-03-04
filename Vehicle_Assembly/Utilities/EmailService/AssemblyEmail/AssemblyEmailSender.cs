@@ -8,7 +8,7 @@ namespace Vehicle_Assembly.Utilities.EmailService.AssemblyEmail
 {
     public class AssemblyEmailSender : MimeMessage
     {
-        public AssemblyEmailSender(SendEmailRequest request, string? attachmentFilePath = null)
+        public AssemblyEmailSender(SendEmailRequest request, Stream? attachmentStream = null, string? attachmentFileName = null)
         {
             BodyBuilder bodyBuilder = new BodyBuilder();
 
@@ -31,19 +31,20 @@ namespace Vehicle_Assembly.Utilities.EmailService.AssemblyEmail
             var textPart = new TextPart(MimeKit.Text.TextFormat.Html) { Text = bodyBuilder.HtmlBody };
             multipart.Add(textPart);
 
-            if (!string.IsNullOrEmpty(attachmentFilePath) && File.Exists(attachmentFilePath))
+            if (attachmentStream != null && !string.IsNullOrEmpty(attachmentFileName))
             {
                 var attachment = new MimePart()
                 {
-                    Content = new MimeContent(File.OpenRead(attachmentFilePath)),
+                    Content = new MimeContent(attachmentStream),
                     ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                     ContentTransferEncoding = ContentEncoding.Base64,
-                    FileName = Path.GetFileName(attachmentFilePath)
+                    FileName = attachmentFileName
                 };
                 multipart.Add(attachment);
             }
 
             this.Body = multipart;
         }
+
     }
 }

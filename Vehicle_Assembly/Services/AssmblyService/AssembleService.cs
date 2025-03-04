@@ -68,7 +68,8 @@ namespace Vehicle_Assembly.Services.AssembleService
                         WorkerName = $"{a.Worker.firstname} {a.Worker.lastname}",
                         job_role = a.Worker.job_role,
                         date = a.date,
-                        isCompleted = a.isCompleted
+                        isCompleted = a.isCompleted,
+                        attachment = a.attachment_path
                     }));
                 }
 
@@ -138,14 +139,18 @@ namespace Vehicle_Assembly.Services.AssembleService
                     request = emailInfo
                 };
 
-                AssemblyEmailSender message = new AssemblyEmailSender(emailRequest, filepath);
+                AssemblyEmailSender message;
+
+                FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+                string fileName = Path.GetFileName(filepath);
+                message = new AssemblyEmailSender(emailRequest, fs, fileName);
 
                 response = new BaseResponse
                 {
                     status_code = StatusCodes.Status200OK,
                     data = new 
                     { 
-                        message = "Assemble record created successfully!" ,
+                        message = "Assemble record created successfully!",
                         email_status = emailService.SendEmail(message)
                     }
                 };

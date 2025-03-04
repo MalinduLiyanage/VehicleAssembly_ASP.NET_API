@@ -14,6 +14,7 @@
         public string job_role { get; set; }
         public DateOnly date { get; set; }
         public bool isCompleted { get; set; }
+        public string? attachment { get; set; }
     }
 
 }
