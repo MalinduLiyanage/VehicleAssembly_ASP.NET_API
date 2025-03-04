@@ -108,7 +108,8 @@ namespace Vehicle_Assembly.Services.AssembleService
                 };
 
                 AssemblyAttachmentService attachFile = new AssemblyAttachmentService();
-                attachFile.PostFileAsync(request.assembly_attachment);
+                attachFile.PostFileAsync(request);
+
 
                 context.assembles.Add(newAssemble);
                 context.SaveChanges();
