@@ -9,7 +9,7 @@ namespace Vehicle_Assembly.Utilities.EmailService.AccountCreation
         {
             BodyBuilder bodyBuilder = new BodyBuilder();
 
-            string emailTemplate = Path.Combine(Directory.GetCurrentDirectory(), "..", "Vehicle_Assembly", "Views", "SendEmailView", "AdminAccountEmail.html");
+            string emailTemplate = Path.Combine(Directory.GetCurrentDirectory(), "Views", "SendEmailView", "AdminAccountEmail.html");
             string emailBody = File.ReadAllText(emailTemplate);
             emailBody = emailBody.Replace("{{AdminName}}", request.firstname + " " + request.lastname)
                 .Replace("{{AdminEmail}}", request.email)

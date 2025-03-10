@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  vehicle_db:
+    image: mysql:8.0
+    container_name: vehicle_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: vehicledb
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - vehicle_db_data:/var/lib/mysql
+    networks:
+      - vehicle_network
+
+  vehicle_assembly:
+    image: ${DOCKER_REGISTRY-}vehicleassembly
+    container_name: vehicle_assembly
+    build:
+      context: .
+      dockerfile: Vehicle_Assembly/Dockerfile
+    ports:
+      - "8001:8080"
+    depends_on:
+      - vehicle_db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_SERVER=vehicle_db
+      - DB_PORT=3306
+      - DB_NAME=vehicledb
+      - DB_USER=root
+      - DB_PASSWORD=password
+    networks:
+      - vehicle_network
+
+volumes:
+  vehicle_db_data:
+
+networks:
+  vehicle_network:
+    driver: bridge

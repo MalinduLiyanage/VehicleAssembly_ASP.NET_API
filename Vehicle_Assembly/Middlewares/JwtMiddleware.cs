@@ -69,6 +69,10 @@ namespace Vehicle_Assembly.Middlewares
 
             if (httpContext.Request.Path.Value is not null)
             {
+                if (httpContext.Request.Path.Value.StartsWith("/uploads/", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
                 foreach (var route in enabledRoutes)
                 {
                     if (httpContext.Request.Path.Value.Equals(route.Key, StringComparison.OrdinalIgnoreCase) &&

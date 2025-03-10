@@ -12,7 +12,7 @@ namespace Vehicle_Assembly.Utilities.EmailService.AssemblyEmail
         {
             BodyBuilder bodyBuilder = new BodyBuilder();
 
-            string emailTemplate = Path.Combine(Directory.GetCurrentDirectory(), "..", "Vehicle_Assembly", "Views", "SendEmailView", "SendEmailTemplate.html");
+            string emailTemplate = Path.Combine(Directory.GetCurrentDirectory(), "Views", "SendEmailView", "SendEmailTemplate.html");
             string emailBody = File.ReadAllText(emailTemplate);
 
             emailBody = emailBody.Replace("{{WorkerName}}", request.request.WorkerName)

@@ -37,12 +37,15 @@ namespace Vehicle_Assembly.Utilities.ValidationService.Jwt
                     string jwt = JwtUtils.GenerateJwtToken(user);
                     
                     // save token in login details
-                    LoginInfoModel? loginDetail = context.loginInfos.Where(ld => ld.email == user.email).FirstOrDefault();
+                    LoginInfoModel loginDetail = context.loginInfos.Where(ld => ld.email == user.email).FirstOrDefault();
 
                     if (loginDetail == null)
                     {
-                        loginDetail.email = user.email;
-                        loginDetail.jwt = jwt;
+                        loginDetail = new LoginInfoModel
+                        {
+                            email = user.email,
+                            jwt = jwt
+                        };
 
                         context.loginInfos.Add(loginDetail);
                     }

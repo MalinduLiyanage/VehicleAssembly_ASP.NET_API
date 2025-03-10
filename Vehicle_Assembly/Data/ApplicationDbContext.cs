@@ -6,7 +6,18 @@ using Vehicle_Assembly.Models;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(){ }
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+        try
+        {
+            Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Database migration failed: {ex.Message}");
+        }
+    }
+
     public DbSet<VehicleModel> vehicle { get; set; }
     public DbSet<WorkerModel> worker { get; set; }
     public DbSet<AssembleModel> assembles { get; set; }

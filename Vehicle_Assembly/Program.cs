@@ -19,7 +19,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Use Pomelo MySQL 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var server = Environment.GetEnvironmentVariable("DB_SERVER");
+var port = Environment.GetEnvironmentVariable("DB_PORT");
+var database = Environment.GetEnvironmentVariable("DB_NAME");
+var user = Environment.GetEnvironmentVariable("DB_USER");
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = $"Server={server};Port={port};Database={database};User={user};Password={password};";
+
 GlobalAttributes.mySQLConfig.connectionString = connectionString;
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
