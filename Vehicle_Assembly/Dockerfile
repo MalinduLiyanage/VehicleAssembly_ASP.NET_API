@@ -23,6 +23,10 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Vehicle_Assembly.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+# Copy Views Folder (html templates)
+RUN mkdir -p /app/publish/Views
+COPY --from=build /src/Vehicle_Assembly/Views /app/publish/Views
+
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
